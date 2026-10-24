@@ -1,0 +1,12 @@
+name: ac2
+channels: 
+    - defaults
+dependencies:
+    - numpy
+    - pandas
+    - matplotlib
+    - tensorflow
+    - keras
+    - scipy
+    - ipykernel
+    - scikit-learn
