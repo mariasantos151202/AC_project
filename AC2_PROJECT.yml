@@ -1,0 +1,14 @@
+name: ac2
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - scikit-learn
+  - ipykernel
+  - pip
+  - pip:
+      - tensorflow
