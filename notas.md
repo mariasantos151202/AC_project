@@ -24,13 +24,13 @@ Tive a pesquisar e escolhi 3 blocos convolucionais como ponto de partida: dão p
 - Também tem uma função para gerar dados artificais para conseguirmos ver alguns resultados. Até agora parece estar tudo bem para os dados artificais gerados, com uma accuracy elevada. 
 - Os nossos dados têm imbalance de classes portanto depois vamos ter de alterar algumas coisas quando testarmos com os nossos dados !
 
-Tive a pesquisar e parece me que 3 blocos convolucionais e 2 densos são um bom ponto de partida: dão profundidade suficiente para aprender padrões em vários níveis, cabem no tamanho do espectrograma (64×128), estou a assumir que o joão vai transformar em espetogramas, e mantêm o modelo pequeno para um dataset limitado.
+Tive a pesquisar e parece me que 3 blocos convolucionais e 2 densos são um bom ponto de partida: dão profundidade suficiente para aprender padrões em vários níveis, cabem no tamanho do espectrograma (40 x 153), estou a assumir que o joão vai transformar em espetogramas, e mantêm o modelo pequeno para um dataset limitado.
 
-- a primeira camada é para aprender padrões mais simples, com 16 filtros de 3 por 3, e depois maxpooling2D, que reduz para metade.
-- a segunda camada é para combinar os padrões simpes em padrões mais completos e formas maiores, com 32 filtros de 3 x 3, novamente com maxpooling2D.
-- a terceira camada é para identificar os padrões mais abstratos, que já se parecem com o murmur, aplicando 64 filtros de 3 por 3 e maxpooling outra vez.
-- a quarta camada que é a dense, recebe os 64 numeros que saiem do **Globar Average Pooling** (que faz a média de cada mapa e fica com um único número por mapa) com ativação relu
-- camada de output -->  é a ultima camada dense, e faz a decisão e calcula a probabilidade das 3 classes (n_classes) com o softmax. 
+- a **primeira camada** é para aprender padrões mais simples, com 16 filtros de 3 por 3, e depois maxpooling2D, que reduz para metade.
+- a **segunda camada** é para combinar os padrões simpes em padrões mais completos e formas maiores, com 32 filtros de 3 x 3, novamente com maxpooling2D.
+- a **terceira camada** é para identificar os padrões mais abstratos, que já se parecem com o murmur, aplicando 64 filtros de 3 por 3 e maxpooling outra vez.
+- a **quarta camada** que é a dense, recebe os 64 numeros que saiem do **Globar Average Pooling** (que faz a média de cada mapa e fica com um único número por mapa) com ativação relu
+- **camada de output** -->  é a ultima camada dense, e faz a decisão e calcula a probabilidade das 3 classes (n_classes) com o softmax. 
 
                             x = layers.GlobalAveragePooling2D()(x)
                                 x = layers.Dense(64, activation="relu")(x)

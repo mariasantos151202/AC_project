@@ -5,12 +5,12 @@ from tensorflow.keras import layers
 import numpy as np
 
 
-def build_cnn(n_mels=64, frames=128, n_classes=3):
+def build_cnn(n_mels=40, frames=153, n_classes=3): # para corresponder aos inputs do joão
 
     # Entrada: uma "imagem" de 64 x 128 com 1 canal.
     # É o espectrograma: eixo vertical = frequências (n_mels),
     # eixo horizontal = tempo (frames), 1 canal = preto e branco.
-    inp = keras.Input(shape=(n_mels, frames, 1))
+    inp = keras.Input(shape=(frames, n_mels, 1))
     
     #Bloco 1: procura padrões simples (16 filtros)
 
@@ -18,11 +18,13 @@ def build_cnn(n_mels=64, frames=128, n_classes=3):
     x = layers.BatchNormalization(momentum=0.9)(x)    
     x = layers.MaxPooling2D(2)(x)
     x = layers.Dropout(0.25)(x)
+    #Bloco 2: procura padrões mais complexos (32 filtros)
 
     x = layers.Conv2D(32, 3, padding="same", activation="relu")(x)
     x = layers.BatchNormalization(momentum=0.9)(x)
     x = layers.MaxPooling2D(2)(x)
     x = layers.Dropout(0.25)(x)
+    #Bloco 3: 64 filtros para identificar padrões mais abstratost
 
     x = layers.Conv2D(64, 3, padding="same", activation="relu")(x)
     x = layers.BatchNormalization(momentum=0.9)(x)
