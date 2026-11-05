@@ -7,7 +7,7 @@ import numpy as np
 
 def build_cnn(n_mels=40, frames=153, n_classes=3): # para corresponder aos inputs do joão
 
-    # Entrada: uma "imagem" de 64 x 128 com 1 canal.
+    # Entrada: uma "imagem" de 40 x 153 com 1 canal.
     # É o espectrograma: eixo vertical = frequências (n_mels),
     # eixo horizontal = tempo (frames), 1 canal = preto e branco.
     inp = keras.Input(shape=(frames, n_mels, 1))
@@ -15,7 +15,7 @@ def build_cnn(n_mels=40, frames=153, n_classes=3): # para corresponder aos input
     #Bloco 1: procura padrões simples (16 filtros)
 
     x = layers.Conv2D(16, 3, padding="same", activation="relu")(inp)
-    x = layers.BatchNormalization(momentum=0.9)(x)    
+    x = layers.BatchNormalization(momentum=0.9)(x)   
     x = layers.MaxPooling2D(2)(x)
     x = layers.Dropout(0.25)(x)
     #Bloco 2: procura padrões mais complexos (32 filtros)
@@ -45,7 +45,7 @@ def build_cnn(n_mels=40, frames=153, n_classes=3): # para corresponder aos input
 
 rng = np.random.default_rng(42)
 
-def make_data(n=600, n_mels=64, frames=128):
+def make_data(n=600, n_mels=40, frames=153):
     y = rng.integers(0, 3, size=n)                  # 0=Absent, 1=Unknown, 2=Present
     X = rng.normal(0, 1, size=(n, n_mels, frames, 1)).astype("float32")
     for i, c in enumerate(y):
@@ -72,7 +72,7 @@ model.fit(X_train, y_train,
           epochs=10, batch_size=32)
 
 probs = model.predict(X_val[:5])
-print(np.round(probs, 2))       # probabilidades [Absent, Unknown, Present]
+print(np.round(probs, 2))       # probabilidades [Present, Unknown, Absent]
 print("reais:", y_val[:5])
 print(model.evaluate(X_train, y_train, verbose=0))
 print(model.evaluate(X_val, y_val, verbose=0))
