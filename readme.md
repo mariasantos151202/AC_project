@@ -27,7 +27,7 @@ fórmula clássica $RF_{l} = RF_{l-1} + (k - 1) \times S_{l-1}$, onde $S$ é o s
 - Camada 2: Conv $3\times3$ (stride 1) $\rightarrow RF = 4 + (3 - 1)\times 2 = 8$
     - Pool 2: MaxPool $2\times2$ (stride 2) $\rightarrow RF = 8 + (2 - 1)\times 2 = 10$; Stride acumulado $S = 4$
 - Camada 3: Conv $3\times3$ (stride 1) $\rightarrow RF = 10 + (3 - 1)\times 4 = 18$
-    -Pool 3: MaxPool $2\times2$ (stride 2) $\rightarrow RF = 18 + (2 - 1)\times 4 = 22$
+    - Pool 3: MaxPool $2\times2$ (stride 2) $\rightarrow RF = 18 + (2 - 1)\times 4 = 22$
 
 Ou seja: antes do último pooling são 18 frames, e após o 3.º pooling são 22 frames, o que coincide com um ciclo cardiaco --> ideal !
 
