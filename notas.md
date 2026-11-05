@@ -73,3 +73,14 @@ Tive a pesquisar e parece me que 3 blocos convolucionais e 2 densos são um bom 
 - The normalized activations are then scaled and shifted using learnable parameters, allowing the model to adapt to the optimal activation distribution.
 
 
+
+**what is flatten ??**
+
+The flatten layer in a Convolutional Neural Network (CNN) is a crucial component that transforms multi-dimensional output from convolutional or pooling layers into a single, long, continuous vector.
+
+
+**O que é a variancia temporal e espacial** de um sopro (nosso contexto)?
+- Porque temporal? O fenómeno que estamos a trabalhar refere-se ao momento em que o sopro acontece ao longo da gravação ("em que ponto da janela ele ocorre").O eixo horizontal da nossa entrada 2D (espectrograma) representa o tempo. Logo, deslocar o sopro de uma posição temporal para outra é uma translação temporal. 
+
+Onde entra a confusão com "espacial"?
+- Na literatura geral de deep learning para visão computacional, o GAP2D é tradicionalmente descrito como conferindo "invariância espacial" (spatial translation invariance), porque numa fotografia comum os eixos $(X, Y)$ são puramente espaciais (largura e altura).Quando convertes áudio num espectrograma 2D, a rede trata matematicamente a matriz como um espaço 2D, mas fisicamente os eixos têm significados diferentes:Eixo horizontal: Tempo (dimensão temporal).Eixo vertical: Frequência (dimensão espetral).

@@ -38,3 +38,6 @@ Ou seja: antes do último pooling são 18 frames, e após o 3.º pooling são 22
 3. GlobalAveragePooling em vez de Flatten --> permite que haja redução de parâmetros e dá invariância temporal, que é útil porque o sopro pode estar em qualquer ponto da janela. Também torna a rede independente do tamanho da entrada.
 
 
+### **Resultados**
+
+- criei dados sintéticos enquanto os nossos dados ainda estavam a sofrer o preprocessamento para ver efetivamente como a rede funcionava e o output que era produzido:
