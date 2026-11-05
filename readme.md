@@ -4,10 +4,10 @@ Porque é que acahamos que o CNN é um bom modelo?
 
 As redes neuronais convolucionais são ótimas para processamento de imagem e os sinais  (fonocardiogramas) podem ser transformados em imagens através de transformações matemáticas (espectogramas, etc), logo estas redes conseguem identificar bem os padrões nas frequências. Uma vez que estamos a ter em conta 2 eixos: tempo e frequencia do sinal, faz sentido que seja um CNN 2D.
 
-- a **primeira camada** é para aprender padrões mais simples, com 16 filtros de 3 por 3, e depois maxpooling2D, que reduz para metade.
-- a **segunda camada** é para combinar os padrões simpes em padrões mais completos e formas maiores, com 32 filtros de 3 x 3, novamente com maxpooling2D.
-- a **terceira camada** é para identificar os padrões mais abstratos, que já se parecem com o murmur, aplicando 64 filtros de 3 por 3 e maxpooling outra vez.
-- a **quarta camada** que é a dense, recebe os 64 numeros que saiem do **Globar Average Pooling** (que faz a média de cada mapa e fica com um único número por mapa) com ativação relu
+- a **primeiro bloco** é para aprender padrões mais simples, com 16 filtros de 3 por 3, e depois maxpooling2D, que reduz para metade.
+- a **segundo bloco** é para combinar os padrões simples em padrões mais completos e formas maiores, com 32 filtros de 3 x 3, novamente com maxpooling2D.
+- a **terceiro bloco** é para identificar os padrões mais abstratos, que já se parecem com o murmur, aplicando 64 filtros de 3 por 3 e maxpooling outra vez.
+- a **quarto bloco** que é a dense, recebe os 64 numeros que saiem do **Globar Average Pooling** (que faz a média de cada mapa e fica com um único número por mapa) com ativação relu
 - **camada de output** -->  é a ultima camada dense, e faz a decisão e calcula a probabilidade das 3 classes (n_classes) com o softmax. 
 
 
