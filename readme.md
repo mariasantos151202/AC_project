@@ -24,3 +24,8 @@ Apenas a extração de features vai diferir.
 2. Remover o offset (média). Algumas gravações têm um valor médio diferente de zero (componente DC). Subtrair a média centra o sinal em zero. Aqui o passa-banda já remove a componente DC (está abaixo dos 25 Hz), mas o z-score garante-o na mesma.
 3. As redes neuronais treinam melhor quando as entradas têm uma escala previsível (à volta de -3 a 3). Com valores muito grandes ou muito pequenos, os gradientes ficam mal condicionados, o otimizador (Adam) tem de se adaptar à escala, e as inicializações dos pesos (pensadas para entradas de variância ~1) deixam de ser adequadas. Isto é especialmente importante nas RNN, em que valores grandes se propagam ao longo de muitos passos temporais.
 4. Todos os exemplos passam a ter a mesma escala, por isso o erro de um paciente não domina a loss só por ter um sinal mais forte.
+
+# Como correr tudo:
+
+1. Põe o train_cnn2D.py na mesma pasta do cnn.py. Ajusta a variável CACHE se a cache estiver noutro sítio (Isto só em último caso).
+2. Corre python train_cnn.py na shell.
