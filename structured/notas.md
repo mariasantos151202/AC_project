@@ -1,21 +1,13 @@
 # **Convolutional Neural Networks**
 
- --> vamos usar as 2D CNN
+Para explicar a escolha da nossa arquitetura CNN 2D, partimos primeiro da física e da biologia do sinal cardíaco, e não de um número arbitrário de parâmetros. Como um ciclo cardíaco completo dura entre 670 e 800 milissegundos, precisávamos que os filtros da última camada conseguissem observar a sístole e a diástole em simultâneo para distinguir um sopro contínuo de um ruído isolado. Com apenas um ou dois blocos convolucionais, a rede só veria fragmentos curtos do batimento; ao estruturarmos três blocos consecutivos ( 16→32→64 filtros, 3×3 com MaxPooling 2×2), o campo recetivo expande-se exatamente o suficiente para cobrir um ciclo cardíaco inteiro sem perder resolução temporal.
 
- --> processamento dos dados --> transformar os audios em espectogramas
+Uma vez definida essa profundidade de três blocos pela natureza biológica do problema, tivemos de garantir que a rede não ficava pesada demais para a quantidade de dados que temos no dataset CirCor (cerca de 16 600 janelas de treino). Se tivéssemos fechado a rede com uma camada densa tradicional após um Flatten, o modelo saltaria para centenas de milhares de parâmetros e entraria rapidamente em overfitting, decorando o ruído de fundo específico de cada paciente. Para evitar isso, substituímos o Flatten por GlobalAveragePooling2D, o que manteve a arquitetura completa em apenas cerca de 28 000 parâmetros.
 
- --> tive a pesquisar e a melhor função loss para este caso é:
-                sparse_categorical_crossentropy
-    porque?? 
-    - É a loss padrão para classificação multiclasse com softmax, e treina de forma estável.
+Na prática, isto dá-nos uma relação muito equilibrada entre dados e complexidade — cerca de 1,7 parâmetros treináveis por janela de treino. Como a rede não tem "memória" suficiente para decorar exemplos individuais, é obrigada a aprender padrões acústicos gerais e consistentes entre pacientes. Este equilíbrio explica por que razão a nossa CNN compacta desenhada de raiz atingiu um Weighted Accuracy de validação de 0,83, superando claramente modelos genéricos muito maiores como a ResNet50 (0,71), cujos milhões de filtros pré-treinados em fotografias não se adaptam tão bem à física de espectrogramas cardíacos.
 
-    - Produz probabilidades bem comportadas, o que é útil para agregar as previsões das janelas por
-    doente e para ajustar a decisão final.
-
-    - A WA (a métrica do enunciado) não é diferenciável, por isso não se pode usar diretamente como loss. A cross-entropy é o substituto razoável, e a WA fica como métrica de seleção.
-
-Tive a pesquisar e escolhi 3 blocos convolucionais como ponto de partida: dão profundidade suficiente para aprender padrões em vários níveis, cabem no tamanho do espectrograma (64×128), estou a assumir que o joão vai transformar em espetogramas, e mantêm o modelo pequeno para um dataset limitado.
-
+**Justificação da loss:**
+A WA (a métrica do enunciado) não é diferenciável, por isso não se pode usar diretamente como loss. A cross-entropy é o substituto razoável, e a WA fica como métrica de seleção.
 
 
 ### **Sobre o cnn.py**
@@ -36,6 +28,33 @@ Tive a pesquisar e parece me que 3 blocos convolucionais e 2 densos são um bom 
                                 x = layers.Dense(64, activation="relu")(x)
                                 x = layers.Dropout(0.5)(x)
                                 out = layers.Dense(n_classes, activation="softmax")(x)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### **Sobre os diferentes parametros de uma CNN 2D: exemplo do cnn.py, que já esta mais ou menos adaptado ao nosso contexto**
 
@@ -84,3 +103,8 @@ The flatten layer in a Convolutional Neural Network (CNN) is a crucial component
 
 Onde entra a confusão com "espacial"?
 - Na literatura geral de deep learning para visão computacional, o GAP2D é tradicionalmente descrito como conferindo "invariância espacial" (spatial translation invariance), porque numa fotografia comum os eixos $(X, Y)$ são puramente espaciais (largura e altura).Quando convertes áudio num espectrograma 2D, a rede trata matematicamente a matriz como um espaço 2D, mas fisicamente os eixos têm significados diferentes:Eixo horizontal: Tempo (dimensão temporal).Eixo vertical: Frequência (dimensão espetral).
+
+
+
+
+----------------------------------------------------------------------------------------------
