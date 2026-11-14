@@ -224,3 +224,28 @@ class MurmurTrainer:
             index=[f"Pred {c}" for c in CLASSES],
             columns=[f"True {c}" for c in CLASSES]
         )
+    
+class MurmurResNet:
+    @staticmethod
+    def build_extractor(frames=153, n_mels=40):
+        """Constrói apenas a base ResNet50 congelada para extrair vetores de 2048 features."""
+        inp = keras.Input(shape=(frames, n_mels, 1))
+        x = layers.Concatenate(axis=-1)([inp, inp, inp])
+        base_model = keras.applications.ResNet50(
+            include_top=False,
+            weights="imagenet",
+            input_tensor=x,
+            pooling="avg"
+        )
+        base_model.trainable = False
+        return keras.Model(inp, base_model.output, name="ResNet50_Extractor")
+
+    @staticmethod
+    def build_head(feature_dim=2048, n_classes=3):
+        """Constrói apenas a cabeça densa que será treinada rapidamente sobre as features."""
+        inp = keras.Input(shape=(feature_dim,))
+        x = layers.Dropout(0.4)(inp)
+        x = layers.Dense(64, activation="relu")(x)
+        x = layers.Dropout(0.3)(x)
+        out = layers.Dense(n_classes, activation="softmax")(x)
+        return keras.Model(inp, out, name="ResNet50_Head")
