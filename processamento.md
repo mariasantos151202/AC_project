@@ -67,7 +67,7 @@ A gravação original está feita a 4000 Hz. Pelo teorema de Nyquist, uma taxa *
 z = (x - média) / desvio_padrão
 ```
 
-Cada gravação fica com média 0 e desvio-padrão 1. Remove diferenças de amplitude que não estão relacionadas com o sopro (pressão do estetoscopio, ganho, tamanho do paciente) e estabiliza o treino. É feita **depois** do filtro para que o que resta do sinal fique com desvio-padrão 1. Como é feita gravação a gravação não usa informação de outros pacientes, desta forma previne **fuga de daods** entre treino e teste.
+Cada gravação fica com média 0 e desvio-padrão 1. Remove diferenças de amplitude que não estão relacionadas com o sopro (pressão do estetoscopio, ganho, tamanho do paciente) e estabiliza o treino. É feita **depois** do filtro para que o que resta do sinal fique com desvio-padrão 1. Como é feita gravação a gravação não usa informação de outros pacientes, desta forma previne **fuga de dados** entre treino e teste.
 
 *Limitação:* perde-se a amplitude absoluta (a intensidade do sopro é clinicamente relevante) e é sensível a picos (artefactos grandes comprimem o resto do sinal).
 
