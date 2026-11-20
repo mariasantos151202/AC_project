@@ -1,6 +1,6 @@
 Projeto de AC 2 - cnn
 
-**estrutura da pasta: resultados_cnn**
+**Estrutura da pasta: resultados_cnn**
 
 -  results_cnn_1_split.ipynb: contém conclusões dos reuslatdos que obtivemos nos testes e validações com os modelos sem usar cross-validation. Ainda vou elaborar mais as explicações para vcs entenderem mellhor algumas coisas !
 
@@ -46,8 +46,10 @@ RESULTADOS: VALIDAÇÃO (BASELINE) | Estratégia: MEAN
 
 Aqui estamos a agrupar pela média das probabilidades por janela temporal. Isto faz com que as janelas que apresnetam sopro visivek fiquem diluidas nas restantes janelas que não têm sopro.
 Além disso, estamos a fazer:
-score = pr * METRIC_W if self.decision == "weighted" else pr
-            y_pred = score.argmax(axis=1)
+
+                    score = pr * METRIC_W if self.decision == "weighted" else pr
+                                y_pred = score.argmax(axis=1)
+                                
 neste caso estamos a usar weighted, ou seja, estamos a multiplicar as probabilidades pelo vetor dos pesos [5; 3; 1] antes de passar pelo argmax. Itso faz com  as probailidades que já estavam inflacionadas antes sejam ainda mais esacerbadas por esta multiplicação e com que seja precisa apenas uma probabilidade muito baixa da presente para que o o output seja present ( está explicado no results_cnn_1_split.ipynb)
 
 
@@ -60,3 +62,9 @@ neste caso estamos a usar weighted, ou seja, estamos a multiplicar as probabilid
 - **Agregação Top-K em vez da média**: por doente, as probabilidades de Present e Unknown são a média das 3 janelas com valores mais altos (top k =3 ) (a de Absent continua a ser a média de todas), e depois renormalizam-se. Evita que um sopro audível em poucas janelas seja diluído pelas restantes.
 - **Decisão `unweighted` em vez de `weighted`**: o argmax passa a ser aplicado diretamente às probabilidades do doente, sem as multiplicar por [5, 3, 1]. O WA continua a ser calculado com os pesos 5:3:1 na avaliação.
 
+**Resultados obtidos no treino e validação do CNN Imp:**
+
+
+
+
+#### **K-fold Cross-validation
