@@ -1,0 +1,38 @@
+Xtr=(16688, 77, 39), ytr=(16688,), Xva=(3644, 77, 39), yva=(3644,), pva=(3644,)
+Epoch 1/10
+ - val_wa (paciente): 0.5222
+261/261 - 57s - 218ms/step - accuracy: 0.7465 - loss: 0.5426 - val_accuracy: 0.6951 - val_loss: 0.7901 - val_wa: 0.5222 - learning_rate: 0.0010
+Epoch 2/10
+ - val_wa (paciente): 0.6111
+261/261 - 41s - 158ms/step - accuracy: 0.8301 - loss: 0.4250 - val_accuracy: 0.8057 - val_loss: 0.6333 - val_wa: 0.6111 - learning_rate: 0.0010
+Epoch 3/10
+ - val_wa (paciente): 0.6593
+261/261 - 41s - 156ms/step - accuracy: 0.8359 - loss: 0.3754 - val_accuracy: 0.7912 - val_loss: 0.6164 - val_wa: 0.6593 - learning_rate: 0.0010
+Epoch 4/10
+ - val_wa (paciente): 0.7296
+261/261 - 39s - 149ms/step - accuracy: 0.8418 - loss: 0.3388 - val_accuracy: 0.7810 - val_loss: 0.6152 - val_wa: 0.7296 - learning_rate: 0.0010
+Epoch 5/10
+ - val_wa (paciente): 0.7593
+261/261 - 40s - 155ms/step - accuracy: 0.8548 - loss: 0.2953 - val_accuracy: 0.7761 - val_loss: 0.6165 - val_wa: 0.7593 - learning_rate: 0.0010
+Epoch 6/10
+ - val_wa (paciente): 0.6111
+261/261 - 39s - 149ms/step - accuracy: 0.8693 - loss: 0.2546 - val_accuracy: 0.7558 - val_loss: 0.7012 - val_wa: 0.6111 - learning_rate: 0.0010
+Epoch 7/10
+ - val_wa (paciente): 0.7667
+
+Epoch 7: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+261/261 - 40s - 155ms/step - accuracy: 0.8890 - loss: 0.2098 - val_accuracy: 0.7687 - val_loss: 0.7095 - val_wa: 0.7667 - learning_rate: 0.0010
+Epoch 8/10
+ - val_wa (paciente): 0.8000
+261/261 - 37s - 143ms/step - accuracy: 0.9167 - loss: 0.1575 - val_accuracy: 0.7709 - val_loss: 0.7420 - val_wa: 0.8000 - learning_rate: 5.0000e-04
+Epoch 9/10
+ - val_wa (paciente): 0.8000
+261/261 - 41s - 156ms/step - accuracy: 0.9437 - loss: 0.1130 - val_accuracy: 0.7736 - val_loss: 0.7999 - val_wa: 0.8000 - learning_rate: 5.0000e-04
+Epoch 10/10
+ - val_wa (paciente): 0.7741
+
+Epoch 10: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+261/261 - 41s - 157ms/step - accuracy: 0.9576 - loss: 0.0858 - val_accuracy: 0.7519 - val_loss: 0.9414 - val_wa: 0.7741 - learning_rate: 5.0000e-04
+train: (16688, 77, 39) val: (3644, 77, 39)
+RNN_train: (16688, 77, 39) RNN_val: (3644, 77, 39)
+REQUIRED RNN_model_shape:  (None, 77, 39)

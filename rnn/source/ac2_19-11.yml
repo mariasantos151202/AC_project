@@ -1,0 +1,12 @@
+name: ac2
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - defaults::python=3.13.16
+  - defaults::tensorflow=2.21.0
+  - defaults::keras=3.15.1
+  - defaults::numpy=2.5.4
+  - defaults::pandas=3.0.6
+  - defaults::matplotlib=3.11.2
+  - conda-forge::python-dotenv=1.2.4
