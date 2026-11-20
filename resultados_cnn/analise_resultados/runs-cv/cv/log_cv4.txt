@@ -1,0 +1,80 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795107602.012996   14925 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+I0000 00:00:1795107602.940327   14925 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795107607.123250   14925 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+E0000 00:00:1795107624.634090   14925 cuda_executor.cc:1737] INTERNAL: CUDA Runtime error: Failed call to cudaGetRuntimeVersion: Error loading CUDA libraries. GPU will not be used.: Error loading CUDA libraries. GPU will not be used.
+W0000 00:00:1795107624.637277   15052 cuda_executor.cc:1755] Failed to determine cuDNN version (Note that this is expected if the application doesn't link the cuDNN plugin): INTERNAL: cuDNN error: CUDNN_STATUS_INTERNAL_ERROR
+W0000 00:00:1795107624.673041   14925 gpu_device.cc:2365] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+W0000 00:00:1795107625.440799   14925 cpu_allocator_impl.cc:82] Allocation of 331704000 exceeds 10% of free system memory.
+CACHE: /mnt/c/Users/Maria/ac_project/data_analysis/cache | existe: True | FOLD: 4 | SEED: 42
+Epoch 1/30
+ - val_wa (paciente): 0.6364
+212/212 - 85s - 403ms/step - accuracy: 0.7723 - loss: 0.4760 - val_accuracy: 0.7451 - val_loss: 0.6563 - val_wa: 0.6364 - learning_rate: 0.0010
+Epoch 2/30
+ - val_wa (paciente): 0.6566
+212/212 - 72s - 338ms/step - accuracy: 0.8077 - loss: 0.4219 - val_accuracy: 0.7643 - val_loss: 0.6129 - val_wa: 0.6566 - learning_rate: 0.0010
+Epoch 3/30
+ - val_wa (paciente): 0.6111
+212/212 - 70s - 332ms/step - accuracy: 0.8131 - loss: 0.4071 - val_accuracy: 0.7241 - val_loss: 0.6641 - val_wa: 0.6111 - learning_rate: 0.0010
+Epoch 4/30
+ - val_wa (paciente): 0.6566
+212/212 - 70s - 330ms/step - accuracy: 0.8172 - loss: 0.3951 - val_accuracy: 0.7794 - val_loss: 0.5804 - val_wa: 0.6566 - learning_rate: 0.0010
+Epoch 5/30
+ - val_wa (paciente): 0.6869
+212/212 - 77s - 363ms/step - accuracy: 0.8195 - loss: 0.3853 - val_accuracy: 0.8071 - val_loss: 0.5501 - val_wa: 0.6869 - learning_rate: 0.0010
+Epoch 6/30
+ - val_wa (paciente): 0.6818
+212/212 - 67s - 314ms/step - accuracy: 0.8227 - loss: 0.3785 - val_accuracy: 0.8108 - val_loss: 0.5355 - val_wa: 0.6818 - learning_rate: 0.0010
+Epoch 7/30
+ - val_wa (paciente): 0.7424
+212/212 - 67s - 316ms/step - accuracy: 0.8245 - loss: 0.3724 - val_accuracy: 0.8237 - val_loss: 0.4876 - val_wa: 0.7424 - learning_rate: 0.0010
+Epoch 8/30
+ - val_wa (paciente): 0.7273
+212/212 - 69s - 324ms/step - accuracy: 0.8189 - loss: 0.3662 - val_accuracy: 0.8307 - val_loss: 0.4978 - val_wa: 0.7273 - learning_rate: 0.0010
+Epoch 9/30
+ - val_wa (paciente): 0.7475
+212/212 - 73s - 345ms/step - accuracy: 0.8235 - loss: 0.3613 - val_accuracy: 0.8370 - val_loss: 0.4808 - val_wa: 0.7475 - learning_rate: 0.0010
+Epoch 10/30
+ - val_wa (paciente): 0.7778
+212/212 - 70s - 332ms/step - accuracy: 0.8217 - loss: 0.3568 - val_accuracy: 0.8432 - val_loss: 0.4835 - val_wa: 0.7778 - learning_rate: 0.0010
+Epoch 11/30
+ - val_wa (paciente): 0.7424
+212/212 - 68s - 320ms/step - accuracy: 0.8241 - loss: 0.3481 - val_accuracy: 0.8421 - val_loss: 0.4816 - val_wa: 0.7424 - learning_rate: 0.0010
+Epoch 12/30
+ - val_wa (paciente): 0.7475
+
+Epoch 12: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+212/212 - 68s - 323ms/step - accuracy: 0.8266 - loss: 0.3484 - val_accuracy: 0.8259 - val_loss: 0.4948 - val_wa: 0.7475 - learning_rate: 0.0010
+Epoch 13/30
+ - val_wa (paciente): 0.8232
+212/212 - 77s - 361ms/step - accuracy: 0.8273 - loss: 0.3362 - val_accuracy: 0.8572 - val_loss: 0.4445 - val_wa: 0.8232 - learning_rate: 5.0000e-04
+Epoch 14/30
+ - val_wa (paciente): 0.7929
+212/212 - 84s - 397ms/step - accuracy: 0.8311 - loss: 0.3305 - val_accuracy: 0.8469 - val_loss: 0.4598 - val_wa: 0.7929 - learning_rate: 5.0000e-04
+Epoch 15/30
+ - val_wa (paciente): 0.8081
+212/212 - 70s - 330ms/step - accuracy: 0.8324 - loss: 0.3275 - val_accuracy: 0.8572 - val_loss: 0.4444 - val_wa: 0.8081 - learning_rate: 5.0000e-04
+Epoch 16/30
+ - val_wa (paciente): 0.7677
+212/212 - 68s - 321ms/step - accuracy: 0.8344 - loss: 0.3239 - val_accuracy: 0.8344 - val_loss: 0.4721 - val_wa: 0.7677 - learning_rate: 5.0000e-04
+Epoch 17/30
+ - val_wa (paciente): 0.7778
+212/212 - 73s - 342ms/step - accuracy: 0.8317 - loss: 0.3208 - val_accuracy: 0.8443 - val_loss: 0.4630 - val_wa: 0.7778 - learning_rate: 5.0000e-04
+Epoch 18/30
+ - val_wa (paciente): 0.7778
+212/212 - 78s - 366ms/step - accuracy: 0.8336 - loss: 0.3226 - val_accuracy: 0.8517 - val_loss: 0.4419 - val_wa: 0.7778 - learning_rate: 5.0000e-04
+Epoch 19/30
+ - val_wa (paciente): 0.8030
+212/212 - 74s - 349ms/step - accuracy: 0.8373 - loss: 0.3172 - val_accuracy: 0.8502 - val_loss: 0.4444 - val_wa: 0.8030 - learning_rate: 5.0000e-04
+Epoch 20/30
+ - val_wa (paciente): 0.7778
+212/212 - 69s - 324ms/step - accuracy: 0.8352 - loss: 0.3131 - val_accuracy: 0.8432 - val_loss: 0.4656 - val_wa: 0.7778 - learning_rate: 5.0000e-04
+Epoch 21/30
+ - val_wa (paciente): 0.7475
+
+Epoch 21: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+212/212 - 71s - 337ms/step - accuracy: 0.8371 - loss: 0.3113 - val_accuracy: 0.8406 - val_loss: 0.4778 - val_wa: 0.7475 - learning_rate: 5.0000e-04
+FOLD 4 | doentes=161 | WA=0.8479
