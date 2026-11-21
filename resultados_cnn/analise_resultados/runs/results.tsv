@@ -1,0 +1,5 @@
+cv_fold0	42	topk	unweighted	0.7741
+cv_fold1	42	topk	unweighted	0.7533
+cv_fold2	42	topk	unweighted	0.7484
+cv_fold3	42	topk	unweighted	0.7336
+cv_fold4	42	topk	unweighted	0.8479

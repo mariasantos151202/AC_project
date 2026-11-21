@@ -1,0 +1,9 @@
+agreg	k	decisao	WA_agrupado	media_folds	dp_folds
+mean	-	weighted	0.7087	0.7086	0.0694
+mean	-	unweighted	0.7566	0.7564	0.0289
+topk	1	weighted	0.5466	0.5467	0.0318
+topk	1	unweighted	0.7310	0.7308	0.0387
+topk	3	weighted	0.5604	0.5606	0.0435
+topk	3	unweighted	0.7717	0.7714	0.0451
+topk	5	weighted	0.5748	0.5750	0.0498
+topk	5	unweighted	0.7756	0.7755	0.0188

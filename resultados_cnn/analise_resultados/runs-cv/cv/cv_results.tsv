@@ -1,0 +1,8 @@
+fold	seed	n_doentes	WA_fold	epochs	melhor_val_wa_interno	log
+0	42	159	0.7741	22	0.7826	log_cv0.txt
+1	42	160	0.7533	26	0.7323	log_cv1.txt
+2	42	160	0.7484	16	0.6818	log_cv2.txt
+3	42	160	0.7336	17	0.8384	log_cv3.txt
+4	42	161	0.8479	21	0.8232	log_cv4.txt
+media			0.7715			
+dp			0.0451			
