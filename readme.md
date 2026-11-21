@@ -63,8 +63,24 @@ neste caso estamos a usar weighted, ou seja, estamos a multiplicar as probabilid
 - **Decisão `unweighted` em vez de `weighted`**: o argmax passa a ser aplicado diretamente às probabilidades do doente, sem as multiplicar por [5, 3, 1]. O WA continua a ser calculado com os pesos 5:3:1 na avaliação.
 
 **Resultados obtidos no treino e validação do CNN Imp:**
+- WA_murmur: 0.8296
+    
+                          True Present    True Unknown   True Absent
+       Pred Present            27             5               18
+       Pred Unknown             0             1               1
+       Pred Absent              0             4               86
 
+Uma vez que obtivemos resultados elevados decidimos treinar com 5 fold cross-validation.
 
+#### **K-fold Cross-validation**
 
+resultados: 
 
-#### **K-fold Cross-validation
+        fold    seed    n_doentes       WA_fold   epochs    melhor_val_wa_interno  
+        0       42      159               0.7741    22      0.7826  log_cv0.txt
+        1       42      160               0.7533    26      0.7323  log_cv1.txt
+        2       42      160               0.7484    16      0.6818  log_cv2.txt
+        3       42      160               0.7336    17      0.8384  log_cv3.txt
+        4       42      161               0.8479    21      0.8232  log_cv4.txt
+        media                   0.7715
+        dp                      0.0451
