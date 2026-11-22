@@ -33,9 +33,9 @@ Assim, os dois modelos são treinados exatamente com as mesmas janelas e os mesm
 
 | Subconjunto | Pacientes | Janelas |
 |---|---|---|
-| Treino | 658 | {'Absent': 485, 'Present': 125, 'Unknown': 48} |
-| Validação | 142 | {'Absent': 105, 'Present': 27, 'Unknown': 10} |
-| Teste | 142 | {'Absent': 105, 'Present': 27, 'Unknown': 10} |
+| Treino | 658 | 16688 |
+| Validação | 142 | 3644 |
+| Teste | 142 | 3866 |
 
 ## 4. Pré-Processamento Comum
 Parâmetros (classe `Config`):
