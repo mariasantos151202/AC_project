@@ -49,7 +49,7 @@ out.write_text("\n".join(linhas) + "\n", encoding="utf-8")
 print(f"guardado em {out}")
 
 
-#fold    seed    n_doentes       WA_fold epochs  melhor_val_wa_interno   log
+#fold    seed    n_doentes       WA_fold epochs  melhor_val_wa_interno   
 #0       42      159     0.7741  22      0.7826  log_cv0.txt
 #1       42      160     0.7533  26      0.7323  log_cv1.txt
 #2       42      160     0.7484  16      0.6818  log_cv2.txt

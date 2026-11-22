@@ -5,7 +5,7 @@ from sklearn.model_selection import StratifiedGroupKFold
 from tensorflow import keras
 
 HERE = Path(__file__).resolve().parent
-ROOT = next(p for p in [HERE, *HERE.parents] if (p / "data_analysis" / "cache").exists())
+ROOT = next(p for p in [HERE, *HERE.parents] if (p / "dados").exists())
 STRUCT = next(p for p in [HERE, *HERE.parents] if (p / "cnn_structured.py").exists())
 sys.path.insert(0, str(STRUCT))
 from cnn_structured import MurmurCNN, MurmurTrainer, PatientAggregator, METRIC_W
@@ -13,9 +13,10 @@ from cnn_structured import MurmurCNN, MurmurTrainer, PatientAggregator, METRIC_W
 K = 5
 fold = int(sys.argv[1])
 seed = int(sys.argv[2]) if len(sys.argv) > 2 else 42
+weights = sys.argv[3] if len(sys.argv) > 3 else "smoothed"     # smoothed | standard | none
 
-CACHE = ROOT / "data_analysis" / "cache"
-RUNS = STRUCT / "cnn" / "runs"
+CACHE = ROOT / "dados" 
+RUNS = STRUCT / 'analise_resultados'/'runs-cv'
 print("CACHE:", CACHE, "| existe:", CACHE.exists(), "| FOLD:", fold, "| SEED:", seed)
 
 def load(name):
@@ -39,13 +40,13 @@ fit_idx, in_idx = tr_idx[a], tr_idx[b]
 
 keras.utils.set_random_seed(seed)
 model = MurmurCNN.build(frames=X.shape[1], n_mels=X.shape[2])
-trainer = MurmurTrainer(model, weight_mode="smoothed")
+trainer = MurmurTrainer(model, weight_mode=None if weights == "none" else weights)
 agg = PatientAggregator(strategy="topk", k=3, decision="unweighted")
 trainer.train(X[fit_idx], y[fit_idx], X[in_idx], y[in_idx], pid[in_idx],
               aggregator=agg, epochs=30)
 
 # guardar logo
-OUT = RUNS / "cv" / f"fold{fold}"
+OUT = RUNS / ("cv" if weights == "smoothed" else f"cv_{weights}") / f"fold{fold}"
 OUT.mkdir(parents=True, exist_ok=True)
 model.save(OUT / "model.keras")
 probs = model.predict(X[te_idx], batch_size=128, verbose=0)
@@ -57,4 +58,4 @@ yt, yp, _ = agg.aggregate(probs, y[te_idx], pid[te_idx])
 w = METRIC_W[yt]
 wa = float(np.sum(w * (yt == yp)) / np.sum(w))
 print(f"FOLD {fold} | doentes={len(yt)} | WA={wa:.4f}")
-open(RUNS / "results.tsv", "a").write(f"cv_fold{fold}\t{seed}\ttopk\tunweighted\t{wa:.4f}\n")
+open(RUNS / "results-standard.tsv", "a").write(f"cv_{weights}_fold{fold}\t{seed}\ttopk\tunweighted\t{wa:.4f}\n")

@@ -1,0 +1,74 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795278643.653854    6993 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+I0000 00:00:1795278645.283640    6993 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795278653.914850    6993 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+E0000 00:00:1795278692.580413    6993 cuda_executor.cc:1737] INTERNAL: CUDA Runtime error: Failed call to cudaGetRuntimeVersion: Error loading CUDA libraries. GPU will not be used.: Error loading CUDA libraries. GPU will not be used.
+W0000 00:00:1795278692.586689    7258 cuda_executor.cc:1755] Failed to determine cuDNN version (Note that this is expected if the application doesn't link the cuDNN plugin): INTERNAL: cuDNN error: CUDNN_STATUS_INTERNAL_ERROR
+W0000 00:00:1795278692.621706    6993 gpu_device.cc:2365] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+W0000 00:00:1795278698.987729    6993 cpu_allocator_impl.cc:82] Allocation of 331850880 exceeds 10% of free system memory.
+CACHE: /mnt/c/Users/Maria/ac_project/dados | existe: True | FOLD: 0 | SEED: 42
+Epoch 1/30
+W0000 00:00:1795278846.443229    6993 cpu_allocator_impl.cc:82] Allocation of 66340800 exceeds 10% of free system memory.
+W0000 00:00:1795278859.107715    6993 cpu_allocator_impl.cc:82] Allocation of 66340800 exceeds 10% of free system memory.
+ - val_wa (paciente): 0.5556
+212/212 - 159s - 750ms/step - accuracy: 0.5664 - loss: 0.9247 - val_accuracy: 0.5613 - val_loss: 0.9070 - val_wa: 0.5556 - learning_rate: 0.0010
+Epoch 2/30
+W0000 00:00:1795279014.022048    6993 cpu_allocator_impl.cc:82] Allocation of 66340800 exceeds 10% of free system memory.
+ - val_wa (paciente): 0.6618
+212/212 - 160s - 755ms/step - accuracy: 0.6233 - loss: 0.8165 - val_accuracy: 0.7207 - val_loss: 0.7195 - val_wa: 0.6618 - learning_rate: 0.0010
+Epoch 3/30
+W0000 00:00:1795279212.085746    6993 cpu_allocator_impl.cc:82] Allocation of 66340800 exceeds 10% of free system memory.
+ - val_wa (paciente): 0.6039
+212/212 - 193s - 910ms/step - accuracy: 0.6364 - loss: 0.7758 - val_accuracy: 0.6513 - val_loss: 0.7896 - val_wa: 0.6039 - learning_rate: 0.0010
+Epoch 4/30
+ - val_wa (paciente): 0.5942
+212/212 - 163s - 768ms/step - accuracy: 0.6484 - loss: 0.7358 - val_accuracy: 0.6044 - val_loss: 0.8385 - val_wa: 0.5942 - learning_rate: 0.0010
+Epoch 5/30
+ - val_wa (paciente): 0.6957
+212/212 - 163s - 767ms/step - accuracy: 0.6454 - loss: 0.7158 - val_accuracy: 0.7041 - val_loss: 0.7013 - val_wa: 0.6957 - learning_rate: 0.0010
+Epoch 6/30
+ - val_wa (paciente): 0.6957
+212/212 - 172s - 810ms/step - accuracy: 0.6414 - loss: 0.7028 - val_accuracy: 0.7399 - val_loss: 0.6609 - val_wa: 0.6957 - learning_rate: 0.0010
+Epoch 7/30
+ - val_wa (paciente): 0.6522
+212/212 - 147s - 695ms/step - accuracy: 0.6563 - loss: 0.6789 - val_accuracy: 0.6978 - val_loss: 0.7184 - val_wa: 0.6522 - learning_rate: 0.0010
+Epoch 8/30
+ - val_wa (paciente): 0.7101
+212/212 - 127s - 601ms/step - accuracy: 0.6632 - loss: 0.6709 - val_accuracy: 0.7590 - val_loss: 0.6398 - val_wa: 0.7101 - learning_rate: 0.0010
+Epoch 9/30
+ - val_wa (paciente): 0.7295
+212/212 - 153s - 723ms/step - accuracy: 0.6652 - loss: 0.6597 - val_accuracy: 0.7620 - val_loss: 0.6510 - val_wa: 0.7295 - learning_rate: 0.0010
+Epoch 10/30
+ - val_wa (paciente): 0.6618
+212/212 - 197s - 928ms/step - accuracy: 0.6614 - loss: 0.6462 - val_accuracy: 0.6919 - val_loss: 0.7220 - val_wa: 0.6618 - learning_rate: 0.0010
+Epoch 11/30
+ - val_wa (paciente): 0.7101
+
+Epoch 11: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+212/212 - 167s - 785ms/step - accuracy: 0.6762 - loss: 0.6307 - val_accuracy: 0.7343 - val_loss: 0.7349 - val_wa: 0.7101 - learning_rate: 0.0010
+Epoch 12/30
+ - val_wa (paciente): 0.6908
+212/212 - 161s - 759ms/step - accuracy: 0.6883 - loss: 0.6078 - val_accuracy: 0.7144 - val_loss: 0.7282 - val_wa: 0.6908 - learning_rate: 5.0000e-04
+Epoch 13/30
+ - val_wa (paciente): 0.7101
+212/212 - 152s - 715ms/step - accuracy: 0.6961 - loss: 0.5940 - val_accuracy: 0.7266 - val_loss: 0.7234 - val_wa: 0.7101 - learning_rate: 5.0000e-04
+Epoch 14/30
+ - val_wa (paciente): 0.7101
+
+Epoch 14: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+212/212 - 130s - 613ms/step - accuracy: 0.6952 - loss: 0.5882 - val_accuracy: 0.7177 - val_loss: 0.7327 - val_wa: 0.7101 - learning_rate: 5.0000e-04
+Epoch 15/30
+ - val_wa (paciente): 0.6715
+212/212 - 190s - 898ms/step - accuracy: 0.7044 - loss: 0.5658 - val_accuracy: 0.7125 - val_loss: 0.7498 - val_wa: 0.6715 - learning_rate: 2.5000e-04
+Epoch 16/30
+ - val_wa (paciente): 0.6908
+212/212 - 193s - 911ms/step - accuracy: 0.7076 - loss: 0.5689 - val_accuracy: 0.7155 - val_loss: 0.7557 - val_wa: 0.6908 - learning_rate: 2.5000e-04
+Epoch 17/30
+ - val_wa (paciente): 0.6812
+
+Epoch 17: ReduceLROnPlateau reducing learning rate to 0.0001250000059371814.
+212/212 - 179s - 845ms/step - accuracy: 0.7098 - loss: 0.5644 - val_accuracy: 0.7070 - val_loss: 0.7586 - val_wa: 0.6812 - learning_rate: 2.5000e-04
+FOLD 0 | doentes=159 | WA=0.7508
