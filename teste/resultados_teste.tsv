@@ -1,0 +1,6 @@
+WA_murmur (Teste - Ensemble 5 Folds): 0.7852
+
+              True Present  True Unknown  True Absent
+Pred Present            22             3            6
+Pred Unknown             0             1            0
+Pred Absent              5             6           99
