@@ -1,0 +1,10 @@
+name: ac2_new
+channels: 
+    - defaults
+dependencies:
+    - numpy
+    - pandas
+    - matplotlib
+    - tensorflow
+    - keras
+    - scikit-learn

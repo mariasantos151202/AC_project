@@ -1,0 +1,2 @@
+model_name,seed,params,weight_mode,loss,optimizer
+McDonald_Model,42,199615,smoothed,sparse_categorical_crossentropy,adam
