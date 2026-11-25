@@ -2,7 +2,11 @@ from sources.config import *
 
 CFG=Config()
 
-McDonald_model:keras.Sequential=models.Sequential(
+class MyModel(keras.Model):
+    def __init__(self, name:str, **kwargs):
+        super().__init__(name=name, **kwargs)
+
+McDonald_model:MyModel=models.Sequential(
     [
         layers.Input(shape=(CFG.time_steps,CFG.n_features)),
         layers.Bidirectional(layers.GRU(units=64, return_sequences=True)), #return_sequences=True; as camadas anteriores são passadas para layers seguintes. Essas camadas são passadas como sequências.

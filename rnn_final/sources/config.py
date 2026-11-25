@@ -17,11 +17,14 @@ import pandas as pd
 import tensorflow as tf
 import numpy as np
 
-import keras
 from keras import layers, models
 import sklearn
 from sklearn.model_selection import StratifiedGroupKFold
+from datetime import datetime
+from keras.losses import SparseCategoricalCrossentropy
 
+
+run_date = datetime.now().strftime("%H-%M_%d-%m") 
 
 class Config:
     # --- RNN ---
@@ -30,8 +33,8 @@ class Config:
     win_sec: float=5.0
     frame_len: int=128
     fs_target: int=1000
-    seed: int=42 #OPCIONAL. seed_list gera estes valores.
-    epochs: list[int]=[3]
+    seed: int=42 
+    epochs: int=40
     batch_size: int=128
     K: int=5
     win = int(win_sec * fs_target)   
@@ -39,20 +42,21 @@ class Config:
     time_steps = 1 + (win - frame_len) // rnn_frame_step 
     n_features=n_mfcc*3
 
+
 CLASSES = {
-    0: "Absent",
+    0: "Present",
     1: "Unknown",
-    2: "Present"
+    2: "Absent"
 }
 
-
-
 METRIC_W=np.array([5, 3, 1], dtype=np.float32)
+
+
 
 BASE= Path(".").parent.resolve()
 CACHE=BASE/"data"
 RESULTS_PATH=BASE/"results"
-FULL_RESULTS_TABLE_PATH=RESULTS_PATH/"full_output.csv"
-PARAMS_TABLE_PATH=RESULTS_PATH/"params.csv"
+FULL_RESULTS_TABLE_PATH=RESULTS_PATH/f"{run_date}_full_output.csv"
+PARAMS_TABLE_PATH=RESULTS_PATH/f"{run_date}_params.csv"
 
 Path.mkdir(RESULTS_PATH, exist_ok=True,parents=True)
