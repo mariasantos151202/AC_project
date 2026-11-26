@@ -1,0 +1,4 @@
+model_name,fold,epochs_requested,batch_size,weight_mode,optimizer,loss,aggregator_strategy,aggregator_decision
+McDonald,0,3,128,smoothed,Adam,SparseCategoricalCrossentropy,topk,unweighted
+McDonald,1,3,128,smoothed,Adam,SparseCategoricalCrossentropy,topk,unweighted
+McDonald,2,3,128,smoothed,Adam,SparseCategoricalCrossentropy,topk,unweighted
