@@ -1,0 +1,27 @@
+Ficheiros criados:
+
+    Cada run de rnn_run.py gera uma pasta "results" com a data de início da run
+    ./results:
+        - ./cv_runs
+            - ./fold_0, ./fold_1, (...), fold_5: guarda os pesos, classe target e pids em formato .npy
+        
+        - cm_sum.csv: Guarda a matriz de confusão 3 * 3 (Present, Absent, Unknown) * (Present, Absent, UNknown)
+            Esta matriz é ()
+
+        - full_output.csv: métricas de accuracy (treino e validação) para cada fold a que o modelo foi sujeito.
+
+        - metrics_fold.csv: métricas adicionais por cada fold: precision, f1-score, recall
+
+        - params.csv: parâmetros usados nesta run (ignorem a repetição por cada fold executada)
+            - fold,
+            - epochs_requested,
+            - batch_size,
+            - weight_mode,
+            - optimizer,
+            - loss,
+            - aggregator_strategy,
+            - aggregator_decision
+
+        - wa.csv: ponderação da weighted accuracy/ fold
+
+        -

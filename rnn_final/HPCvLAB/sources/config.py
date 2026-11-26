@@ -51,13 +51,19 @@ CLASSES = {
 METRIC_W=np.array([5, 3, 1], dtype=np.float32)
 
 
-
 BASE= Path(".").parent.resolve()
 CACHE=BASE/"data"
-RESULTS_PATH=BASE/"results"
+RESULTS_PATH=BASE/f"results_{run_date}"
 FULL_RESULTS_TABLE_PATH=RESULTS_PATH/f"{run_date}_full_output.csv"
 PARAMS_TABLE_PATH=RESULTS_PATH/f"{run_date}_params.csv"
 #TRAINING_LOG_PATH=RESULTS_PATH/f"{run_date}_training_log.csv"
-
+CV_RUNS = RESULTS_PATH/f"cv_runs"
+PATIENT_CM_PATH= RESULTS_PATH/f"{run_date}_patient_fold_cm.csv"
+PATIENT_CM_FULL_PATH=RESULTS_PATH/f"{run_date}_patient_fold_cm_full.csv"
+ADDED_METRICS_PATH=RESULTS_PATH/f"{run_date}_metrics_fold.csv"
+WA_PATH=RESULTS_PATH/f"{run_date}_wa_.csv"
+POOL_WA_PATH=RESULTS_PATH/f"{run_date}_wa_sum.csv"
+POOL_CM_PATH=RESULTS_PATH/f"{run_date}_cm_sum.csv"
 
 Path.mkdir(RESULTS_PATH, exist_ok=True,parents=True)
+Path.mkdir(CV_RUNS, exist_ok=True, parents=True)
