@@ -1,0 +1,6 @@
+model_name,run_id,n_params,fold,true_Present__pred_Present,true_Present__pred_Unknown,true_Present__pred_Absent,true_Unknown__pred_Present,true_Unknown__pred_Unknown,true_Unknown__pred_Absent,true_Absent__pred_Present,true_Absent__pred_Unknown,true_Absent__pred_Absent
+Custom_CNN2D,01-10-54_27-11,28099,0,26,0,4,3,1,7,23,0,95
+Custom_CNN2D,01-10-54_27-11,28099,1,24,0,6,4,1,7,13,1,104
+Custom_CNN2D,01-10-54_27-11,28099,2,31,0,0,2,4,5,41,1,76
+Custom_CNN2D,01-10-54_27-11,28099,3,27,0,3,2,1,9,18,5,95
+Custom_CNN2D,01-10-54_27-11,28099,4,28,0,3,5,2,5,17,3,98

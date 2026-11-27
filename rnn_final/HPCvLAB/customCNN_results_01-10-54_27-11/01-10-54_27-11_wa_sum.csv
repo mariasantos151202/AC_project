@@ -1,0 +1,2 @@
+model_name,run_id,n_params,pooled_wa,mean_wa,std_wa
+Custom_CNN2D,01-10-54_27-11,28099,0.7709974050521851,0.7708789229393005,0.020466913902474054
