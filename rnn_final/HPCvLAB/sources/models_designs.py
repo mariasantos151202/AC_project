@@ -25,5 +25,36 @@ McDonald_model:MyModel=models.Sequential(
 
 # CNN
 
+# =====================================================================
+# 1. ARQUITETURA DA CNN2D
+# =====================================================================
 
+Custom_CNN2D: models.Sequential = models.Sequential(
+    [
+        layers.Input(shape=(153, 40, 1)),
 
+        # Bloco 1: 16 filtros
+        layers.Conv2D(16, 3, padding="same", activation="relu"),
+        layers.BatchNormalization(momentum=0.9),
+        layers.MaxPooling2D(2),
+        layers.Dropout(0.25),
+
+        # Bloco 2: 32 filtros
+        layers.Conv2D(32, 3, padding="same", activation="relu"),
+        layers.BatchNormalization(momentum=0.9),
+        layers.MaxPooling2D(2),
+        layers.Dropout(0.25),
+
+        # Bloco 3: 64 filtros
+        layers.Conv2D(64, 3, padding="same", activation="relu"),
+        layers.BatchNormalization(momentum=0.9),
+        layers.MaxPooling2D(2),
+        layers.Dropout(0.25),
+
+        layers.GlobalAveragePooling2D(),
+        layers.Dense(64, activation="relu"),
+        layers.Dropout(0.5),
+        layers.Dense(len([key for key in CLASSES.values()]), activation="softmax"),
+    ],
+    name="Custom_CNN2D",
+)
