@@ -8,8 +8,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = next(p for p in [HERE, *HERE.parents] if (p / "dados").exists())
 STRUCT = next(p for p in [HERE, *HERE.parents] if (p / "cnn_structured.py").exists())
 sys.path.insert(0, str(STRUCT))
-from cnn_structured import MurmurCNN, MurmurTrainer, PatientAggregator, METRIC_W
-
+from train_strategy import MurmurTrainer, PatientAggregator, METRIC_W
+from cnn_model import MurmurCNN
 K = 5
 fold = int(sys.argv[1])
 seed = int(sys.argv[2]) if len(sys.argv) > 2 else 42
@@ -58,4 +58,6 @@ yt, yp, _ = agg.aggregate(probs, y[te_idx], pid[te_idx])
 w = METRIC_W[yt]
 wa = float(np.sum(w * (yt == yp)) / np.sum(w))
 print(f"FOLD {fold} | doentes={len(yt)} | WA={wa:.4f}")
-open(RUNS / "results-standard.tsv", "a").write(f"cv_{weights}_fold{fold}\t{seed}\ttopk\tunweighted\t{wa:.4f}\n")
+if weights=='standard':
+            open(RUNS / "results-standard.tsv", "a").write(f"cv_{weights}_fold{fold}\t{seed}\ttopk\tunweighted\t{wa:.4f}\n")
+else:open(RUNS / "results_smoothed.tsv", "a").write(f"cv_{weights}_fold{fold}\t{seed}\ttopk\tunweighted\t{wa:.4f}\n")

@@ -148,44 +148,90 @@ class MurmurTrainer:
                     
         return best_th, best_wa
 
+    @staticmethod
+    def _cm_true_pred(y_true, y_pred):
+        """Matriz com linhas = verdadeiro, colunas = previsto (para as contas)."""
+        m = np.zeros((3, 3), dtype=int)
+        for t, p in zip(y_true, y_pred):
+            m[t, p] += 1
+        return m
+
+    @staticmethod
+    def compute_metrics(y_true, y_pred):
+        """Métricas ao nível do doente: globais e por classe (um-contra-todos)."""
+        y_true = np.asarray(y_true, dtype=int)
+        y_pred = np.asarray(y_pred, dtype=int)
+        cm = MurmurTrainer._cm_true_pred(y_true, y_pred)
+        n = cm.sum()
+
+        tp = np.diag(cm).astype(float)
+        support = cm.sum(1).astype(float)      # nº real de doentes por classe
+        pred_n = cm.sum(0).astype(float)       # nº previsto por classe
+        fp = pred_n - tp
+        fn = support - tp
+        tn = n - tp - fp - fn
+
+        def div(a, b):
+            return np.divide(a, b, out=np.zeros_like(a, dtype=float), where=b > 0)
+
+        precision = div(tp, pred_n)
+        recall = div(tp, support)              # sensibilidade
+        specificity = div(tn, tn + fp)
+        f1 = div(2 * precision * recall, precision + recall)
+
+        per_class = pd.DataFrame(
+            {"precisão": precision, "recall": recall, "especificidade": specificity,
+             "F1": f1, "suporte": support.astype(int)},
+            index=CLASSES,
+        )
+
+        w = METRIC_W[y_true]
+        summary = {
+            "wa": float(np.sum(w * (y_true == y_pred)) / np.sum(w)),
+            "accuracy": float(tp.sum() / n),
+            "balanced_accuracy": float(recall.mean()),   # média dos recalls
+            "macro_f1": float(f1.mean()),
+        }
+        return summary, per_class
+
+    def _print_metrics(self, y_true, y_pred):
+        summary, per_class = self.compute_metrics(y_true, y_pred)
+        print(f"Accuracy: {summary['accuracy']:.4f} | "
+              f"Balanced acc.: {summary['balanced_accuracy']:.4f} | "
+              f"Macro-F1: {summary['macro_f1']:.4f}")
+        print(per_class.round(3))
+        return summary, per_class
+
     def evaluate_and_report(self, X, y, pids, aggregator, split_name="VALIDAÇÃO", optimize_thresholds=False):
-        """Avalia o modelo ao nível do paciente, imprime WA e matriz de confusão."""
+        """Avalia o modelo ao nível do paciente: WA, matriz de confusão e métricas extra."""
         probs = self.model.predict(X, batch_size=256, verbose=0)
         yt, yp, _ = aggregator.aggregate(probs, y, pids)
-        
+
         w = METRIC_W[yt]
         wa = float(np.sum(w * (yt == yp)) / np.sum(w))
-        
+
         print(f"\n{'='*45}")
         print(f" RESULTADOS: {split_name} | Estratégia: {aggregator.strategy.upper()}")
         print(f"{'='*45}")
         print(f"WA_murmur: {wa:.4f}")
         print(self._confusion_df(yt, yp))
-        
+        summary, per_class = self._print_metrics(yt, yp)
+        self.last_report = {"summary": summary, "per_class": per_class}
+
         best_th = aggregator.thresholds
         if optimize_thresholds:
             best_th, best_wa = self.find_optimal_thresholds(probs, y, pids, aggregator)
-            # Atualiza o agregador com os melhores limiares encontrados
             aggregator.thresholds = best_th
             _, yp_opt, _ = aggregator.aggregate(probs, y, pids)
-            
+
             print(f"\n--- APÓS CALIBRAÇÃO DE LIMIARES {best_th} ---")
             print(f"WA_murmur Otimizado: {best_wa:.4f}")
             print(self._confusion_df(yt, yp_opt))
-            
+            summary_o, per_class_o = self._print_metrics(yt, yp_opt)
+            self.last_report_thresholds = {"summary": summary_o, "per_class": per_class_o}
+
         return wa, best_th
 
-    @staticmethod
-    def _confusion_df(y_true, y_pred):
-        m = np.zeros((3, 3), dtype=int)
-        for t, p in zip(y_true, y_pred):
-            m[p, t] += 1
-        return pd.DataFrame(
-            m,
-            index=[f"Pred {c}" for c in CLASSES],
-            columns=[f"True {c}" for c in CLASSES]
-        )
-    
 class MurmurResNet:
     @staticmethod
     def build_extractor(frames=153, n_mels=40):
