@@ -1,0 +1,11 @@
+model_name,strategy,k,decision,wa
+--,mean,3,weighted,0.751968502998352
+--,mean,3,unweighted,0.6745406985282898
+--,mean,5,weighted,0.751968502998352
+--,mean,5,unweighted,0.6745406985282898
+--,topk,5,weighted,0.595800518989563
+--,topk,5,unweighted,0.76115483045578
+--,topk,6,weighted,0.6102362275123596
+--,topk,6,unweighted,0.7559055089950562
+--,topk,13,weighted,0.6725721955299377
+--,topk,13,unweighted,0.7362204790115356
