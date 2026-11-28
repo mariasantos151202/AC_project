@@ -1,8 +1,8 @@
 import source.config as config
 from source.config import *
-from AC_project.source.patientaggregator import PatientAggregator
-from patientcallback import PatientWACallback
-from source.helpers import weighted_accuracy
+from source.patientaggregator import PatientAggregator
+from source.patientcallback import PatientWACallback
+from source.helpers import _confusion_df, confusion_matrix_values, _to_df, weighted_accuracy, conf_matrix_calc, added_metrics, cm_to_row, export_csv, export_rows
 
 
 class MurmurTrainer:
@@ -35,7 +35,6 @@ class MurmurTrainer:
             extra_metrics:list[str]|None=None,
             optimizer:keras.optimizers.Optimizer|None=None, 
             loss:keras.losses.Loss|None=None, 
-            
             epochs:int=0,
             
         ):
@@ -147,7 +146,7 @@ class MurmurTrainer:
             probs = self.model.predict(X, batch_size=self.CFG.batch_size)
             yt, yp, pr = aggregator.aggregate(probs, y, pids)
             wa = weighted_accuracy(yt, yp)
-            cm = self._confusion_matrix(y_true=yt,y_pred=yp)
+            cm = confusion_matrix_values(y_true=yt,y_pred=yp)
             
             th, wa_th, cm_th = thresholds, None, None
             if optimize_thresholds:
@@ -157,8 +156,8 @@ class MurmurTrainer:
                 #Determina se predicted results sem thresholds é melhor do que com thresholds.
                 yp_th = aggregator.decide(pr, thresholds=th)             
                 wa_th=weighted_accuracy(yt, yp_th)
-                cm_th = self._confusion_matrix(yt, yp_th)
-                print(self._to_df(cm_th))
+                cm_th = _confusion_df(yt, yp_th)
+                                
 
             return {
                 "wa": wa, "wa_thresholds": wa_th, 
@@ -168,6 +167,9 @@ class MurmurTrainer:
                 "probs": probs
             }
 
+
+    
+
     """
     CLASSES = {
         0: "Present",
@@ -175,25 +177,83 @@ class MurmurTrainer:
         2: "Absent"
     }    
     """
-    #Em conformidade com a matriz de confusão do sklearn.
-    @staticmethod
-    def _confusion_matrix(y_true, y_pred):
-        m = np.zeros((3, 3), dtype=int)
+    
 
-        for TRUE, PREDICTED in zip(y_true, y_pred):
-            m[TRUE, PREDICTED] += 1
+
+def summarize_cv(aggregator:PatientAggregator, model:keras.Model, run_id:str=run_date, seed:int=CFG.seed):
+
+    name, n_params = model.name, model.count_params()
+
+    def ident(fold):
+        return {"run_id": run_id, "n_params": n_params, "fold": fold}
+
+    def wa_cm_rows(row_id, y_true, y_pred=None, cm=None):
         
-        return m
+        cm =confusion_matrix_values(y_true=y_true, y_pred=y_pred) if cm is None else cm
+        patient_cm = conf_matrix_calc(cm)
+        cm_rows.append({**row_id, **added_metrics(patient_cm)})
+        metric_rows.append({**row_id, **added_metrics(patient_cm)})
+        full_cm_rows.append({**row_id, **cm_to_row(cm)})
 
-    @staticmethod
-    def _to_df(m: np.ndarray) -> pd.DataFrame:
-        return pd.DataFrame(
-            m,
-            index=[f"True {c}" for c in CLASSES.values()],
-            columns=[f"Pred {c}" for c in CLASSES.values()]
-        )
+        return cm
 
-    @staticmethod
-    def _confusion_df(y_true, y_pred):
-        return MurmurTrainer._to_df(MurmurTrainer._confusion_matrix(y_true, y_pred))
- 
+
+    was, cms, all_true, all_pred = [], [], [], []
+    wa_rows:list[dict]= []
+    cm_rows:list[dict]= []
+    metric_rows:list[dict]= []
+    full_cm_rows: list[dict]= []
+    
+    for fold_file in range(CFG.K):
+        
+        dir = config.CV_PATH / f"fold_{fold_file}"
+        probs, y, pids= (np.load(dir/n) for n in ("probs.npy", "y.npy", "pids.npy"))
+        y_true, y_predicted, _ = aggregator.aggregate(probs, y, pids)
+
+        #Calcular weighted accuracy/fold
+        wa=weighted_accuracy(y_true=y_true, y_pred=y_predicted)
+        wa_rows.append({**ident(fold=fold_file), "weighted_accuracy":wa})
+
+        #Calcular patient-level confusion matrix/fold
+        cm = wa_cm_rows(row_id=ident(fold=fold_file), y_true=y_true, y_pred=y_predicted)
+
+        was.append(wa)
+        cms.append(cm)
+        all_true.append(y_true)
+        all_pred.append(y_predicted)
+
+
+    #calcula Weighted Accuracy, com respetiva média e desvio padrão.
+    
+    mean_wa= float(np.mean(was))
+    std_wa = float(np.std(was, ddof=1))
+
+    #Exportar list[dict] e dict para .csv
+
+    export_csv(
+        path=MEAN_WA_PATH, 
+        data={
+            "run_id": run_id, 
+            "n_params": n_params, 
+            "mean_wa":mean_wa, 
+            "std_wa":std_wa, 
+        },
+        model_name= name
+    )
+
+    pooled_cm=np.sum(cms, axis=0)
+    
+    export_csv(
+        path=POOL_CM_PATH,
+        data={
+            "run_id":run_id,
+            "n_params": n_params,
+            **cm_to_row(pooled_cm)
+        },
+        model_name=name
+    )
+
+    #Podem ser lidos para criação de tabelas .md
+    export_rows(WA_CV_PATH, wa_rows, name)
+    export_rows(PATIENT_CM_FULL_PATH, cm_rows, name)
+    export_rows(METRICS_CV_PATH, metric_rows, name)

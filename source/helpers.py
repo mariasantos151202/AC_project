@@ -2,11 +2,31 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 import source.config as config
-from config import *
-from AC_project.source.patientaggregator import PatientAggregator
-from source.murmurtrainer import MurmurTrainer
+from source.config import *
+#from source.patientaggregator import PatientAggregator
 
 METRIC_W=config.METRIC_W
+
+#Em conformidade com a matriz de confusão do sklearn.
+   
+def confusion_matrix_values(y_true, y_pred):
+    m = np.zeros((3, 3), dtype=int)
+
+    for TRUE, PREDICTED in zip(y_true, y_pred):
+        m[TRUE, PREDICTED] += 1
+    
+    return m
+
+def _to_df(m: np.ndarray) -> pd.DataFrame:
+    return pd.DataFrame(
+        m,
+        index=[f"True {c}" for c in CLASSES.values()],
+        columns=[f"Pred {c}" for c in CLASSES.values()]
+    )
+
+def _confusion_df(y_true, y_pred):
+    return _to_df(confusion_matrix_values(y_true, y_pred))
+
 
 #Matriz de confusão para a classe de interesse "Present".
 #Source:https://www.analyticsvidhya.com/blog/2021/06/confusion-matrix-for-multi-class-classification/
@@ -95,82 +115,22 @@ def export_rows(path:Path|str, data:list[dict], model_name:str):
         for r in data:
             writer.writerow({"model_name":model_name, **r})
 
-def summarize_cv(aggregator:PatientAggregator, model:keras.Model, run_id:str=run_date, seed:int=CFG.seed):
+#Exportar para .md (jupyter). Formatação das tabelas em markdown. para este ciclo.
+def md_table_build(csv_file:Path|str) -> str:
+    """POOL_CM_PATH --> model_name, **cm_to_row --> build em .md;
+    #METRICAS ADICIONAIS"""
 
-    name, n_params = model.name, model.count_params()
-
-    def ident(fold):
-        return {"run_id": run_id, "n_params": n_params, "fold": fold}
-
-    def wa_cm_rows(row_id, y_true, y_pred=None, cm=None):
-        
-        cm =MurmurTrainer._confusion_matrix(y_true=y_true, y_pred=y_pred) if cm is None else cm
-        patient_cm = conf_matrix_calc(cm)
-        cm_rows.append({**row_id, **added_metrics(patient_cm)})
-        metric_rows.append({**row_id, **added_metrics(patient_cm)})
-        full_cm_rows.append({**row_id, **cm_to_row(cm)})
-
-        return cm
-
-
-    was, cms, all_true, all_pred = [], [], [], []
-    wa_rows:list[dict]= []
-    cm_rows:list[dict]= []
-    metric_rows:list[dict]= []
-    full_cm_rows: list[dict]= []
+    df = pd.read_csv(csv_file, sep=",")
+    header=df.columns.tolist()
     
-    for fold_file in range(CFG.K):
-        
-        dir = config.CV_PATH / f"fold_{fold_file}"
-        probs, y, pids= (np.load(dir/n) for n in ("probs.npy", "y.npy", "pids.npy"))
-        y_true, y_predicted, _ = aggregator.aggregate(probs, y, pids)
+    #Build header and separator lines
+    lines=[
+        "| " + " | ".join(header) + " |",
+        "| " + " | ".join("---" for _ in header) + " |"
+    ]
 
-        #Calcular weighted accuracy/fold
-        wa=weighted_accuracy(y_true=y_true, y_pred=y_predicted)
-        wa_rows.append({**ident(fold=fold_file), "weighted_accuracy":wa})
+    #Build row content 
+    for row in df.values:
+        lines.append("| " + " | ".join(v for v in row) + " |")
 
-        #Calcular patient-level confusion matrix/fold
-        cm = wa_cm_rows(row_id=ident(fold=fold_file), y_true=y_true, y_pred=y_predicted)
-
-        was.append(wa)
-        cms.append(cm)
-        all_true.append(y_true)
-        all_pred.append(y_predicted)
-
-
-    #calcula Weighted Accuracy, com respetiva média e desvio padrão.
-    """pooled_wa=weighted_accuracy(
-        y_true=np.concatenate(all_true),
-        y_pred=np.concatenate(all_pred)
-    )"""
-    mean_wa= float(np.mean(was))
-    std_wa = float(np.std(was, ddof=1))
-
-    export_csv(
-        path=MEAN_WA_PATH, 
-        data={
-            "run_id": run_id, 
-            "n_params": n_params, 
-            "mean_wa":mean_wa, 
-            "std_wa":std_wa, 
-        },
-        model_name= name
-    )
-
-    pooled_cm=np.sum(cms, axis=0)
-    
-    export_csv(
-        path=POOL_CM_PATH,
-        data={
-            "run_id":run_id,
-            "n_params": n_params,
-            **cm_to_row(pooled_cm)
-        },
-        model_name=name
-    )
-
-
-    export_rows(WA_CV_PATH, wa_rows, name)
-    export_rows(PATIENT_CM_FULL_PATH, cm_rows, name)
-    export_rows(METRICS_CV_PATH, metric_rows, name)
-    
+    return "\n".join(lines)

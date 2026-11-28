@@ -4,6 +4,7 @@ from source.config import keras
 from source.murmurtrainer import MurmurTrainer
 import numpy as np
 from source.helpers import export_csv
+import os
 
 def run_model(model:keras.Model, weight_mode:str, aggregator:PatientAggregator, data:dict, epochs_requested:int, fold:int, seed=None):
 
@@ -61,6 +62,8 @@ def run_model(model:keras.Model, weight_mode:str, aggregator:PatientAggregator, 
     np.save(fold_dir / "probs.npy", test_obj["probs"]); np.save(fold_dir / "y.npy", y[test_idx]); np.save(fold_dir / "pids.npy", pid[test_idx].astype(str))
 
     export_csv(path=config.ACC_LOSS_PATH, data=summary, model_name=trainer.name)
+    if not (config.PARAMS_PATH.exists()):
+        export_csv(path=config.PARAMS_PATH, data=meta, model_name=trainer.name)
 
     #Se correu todas as epochs ou terminou mais cedo por causa de "Early Stopping".,
     return test_obj

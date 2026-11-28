@@ -1,5 +1,5 @@
-from config import *
 import source.config as config
+from source.config import *
 from source.helpers import weighted_accuracy
 
 class PatientWACallback(keras.callbacks.Callback):

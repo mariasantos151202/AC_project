@@ -33,7 +33,7 @@ class Config:
     fs_target: int=1000
     seed: int=42 
     epochs: int=40
-    batch_size: int=128
+    batch_size: int=64
     K: int=5
     win = int(win_sec * fs_target)   
     # rnn_frame_step: divisão do input em sequências
@@ -52,10 +52,11 @@ CLASSES = {
 }
 
 #Project paths
-BASE:Path=Path(__file__).resolve().parents[2]
-CACHE=BASE/"cache"
+BASE:Path=Path(__file__).resolve().parents[1]
+CACHE=Path("C:/Users/user/Desktop/Code_Projects/AC_II_project/final_branch/AC_project/data")
 
-RESULTS_PATH=BASE/"results"
+
+RESULTS_PATH=BASE/"run_results"
 RESULTS_RUN_PATH=RESULTS_PATH/f"{run_date}"
 CV_PATH=RESULTS_RUN_PATH/"cv_log"
 
