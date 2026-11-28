@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from IPython.display import Markdown,display
+
 from collections import defaultdict
 import source.config as config
 from source.config import *
@@ -116,21 +118,49 @@ def export_rows(path:Path|str, data:list[dict], model_name:str):
             writer.writerow({"model_name":model_name, **r})
 
 #Exportar para .md (jupyter). Formatação das tabelas em markdown. para este ciclo.
-def md_table_build(csv_file:Path|str) -> str:
-    """POOL_CM_PATH --> model_name, **cm_to_row --> build em .md;
-    #METRICAS ADICIONAIS"""
+def md_table_build(csv_file:Path|str|None=None, cf_matrix:bool=False):
 
-    df = pd.read_csv(csv_file, sep=",")
-    header=df.columns.tolist()
+    def build_lines(df:pd.DataFrame) -> list[str]:
+
+        index_label = df.index.name if df.index.name is not None else ""
+        header = [str(index_label), *(str(c) for c in df.columns)]
+        
+        #Build header and separator lines
+        lines=[
+            "| " + " | ".join(header) + " |",
+            "| " + " | ".join("---" for _ in header) + " |"
+        ]
+        #Build row content 
+        for idx, row in zip(df.index, df.values):
+            cells = [str(idx), *(str(v) for v in row)]
+            lines.append("| " + " | ".join(cells) + " |")
+
+        return lines
     
-    #Build header and separator lines
-    lines=[
-        "| " + " | ".join(header) + " |",
-        "| " + " | ".join("---" for _ in header) + " |"
-    ]
+    if csv_file is None: csv_file=PATIENT_CM_FULL_PATH
+    df = pd.read_csv(filepath_or_buffer=csv_file, delimiter=",")
 
-    #Build row content 
-    for row in df.values:
-        lines.append("| " + " | ".join(v for v in row) + " |")
+    if cf_matrix:
+        df = pd.read_csv(csv_file, sep=",", index_col=["model_name"])
+        #Columns to be split
+        records:list[dict]=[]
+        for col in df.columns:
+            row=df.iloc[0]
+            if "__" in col:
+                TRUE,PRED = col.split("__", maxsplit=1)
+                records.append({
+                    "TRUE":TRUE,
+                    "PRED":PRED,
+                    "value":row[col]
+                })
+        matrix_2d = pd.DataFrame(records).pivot(
+            index="PRED", 
+            columns="TRUE", 
+            values="value",
+        )    
+        lines=build_lines(df=matrix_2d)
 
-    return "\n".join(lines)
+    else:
+        lines=build_lines(df=df)
+
+    display(Markdown('\n'.join(lines)))

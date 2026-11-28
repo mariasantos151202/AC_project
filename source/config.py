@@ -32,7 +32,7 @@ class Config:
     frame_len: int=128
     fs_target: int=1000
     seed: int=42 
-    epochs: int=40
+    epochs: int=30
     batch_size: int=64
     K: int=5
     win = int(win_sec * fs_target)   

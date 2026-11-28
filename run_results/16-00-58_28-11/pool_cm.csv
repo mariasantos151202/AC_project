@@ -1,0 +1,2 @@
+model_name,run_id,n_params,true_Present__pred_Present,true_Present__pred_Unknown,true_Present__pred_Absent,true_Unknown__pred_Present,true_Unknown__pred_Unknown,true_Unknown__pred_Absent,true_Absent__pred_Present,true_Absent__pred_Unknown,true_Absent__pred_Absent
+Custom_CNN2D,16-00-58_28-11,28099,133,1,18,13,11,34,74,19,497

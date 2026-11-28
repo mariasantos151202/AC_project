@@ -1,0 +1,2 @@
+model_name,fold,epochs_requested,batch_size,weight_mode,optimizer,loss,aggregator_strategy,aggregator_decision
+Custom_CNN2D,0,30,64,smoothed,Adam,SparseCategoricalCrossentropy,topk,unweighted
